@@ -1,19 +1,20 @@
 body {
-  width: 200px;
-  height: 200px;
+  width: max-content;
+  padding: 0;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-button#send-data {
-  background: #C3413B;
-  padding: 10px;
-  font-size: 1em;
-  border: 0;
-  border-radius: 50px;
-  cursor: pointer;
-  color: white;
-  outline: none !important;
+ul#ids {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+ul#ids li {
+  padding: 4px 8px;
+}
+
+ul#ids li:hover {
+  background: #F3F3F3;
 }

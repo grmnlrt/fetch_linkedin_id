@@ -1,24 +1,24 @@
-function fetchData() {
-  const title = document.querySelector('title').innerText;
-  const url = window.location.href;
-
-  return {
-    title: title,
-    url: url
-  }
+function fetchIds() {
+  return Array.from(document.querySelectorAll('code')).map( (x) => {
+    try {
+      return JSON.parse(x.innerText)
+    }
+    catch {
+      return null
+    }
+  }).filter( x => x != null && x.hasOwnProperty('included') && x.included.length != 0)
+    .map( x => x.included)
+    .flat()
+    .filter( x => x.hasOwnProperty('entityUrn'))
+    .map( x => x.entityUrn )
+    .filter(x => x.match(/(urn:li:fs_normalized_company:)(?<linkedin_uid>\d*)/))
+    .map( x => x.match(/(urn:li:fs_normalized_company:)(?<linkedin_uid>\d*)/).groups.linkedin_uid);
 }
 
-function sendData(data) {
-  const url = 'https://wagon-chat.herokuapp.com/engineering/messages';
-  fetch(url, {
-    method: 'POST',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      "author": "Le Wagon chrome extension",
-      "content": `I've found something cool: ${data.title} on ${data.url}`
-    })
-  })
+function createUrl(ids) {
+  return ids.map((id) => {
+    return { 'id': id, 'url': `https://www.linkedin.com/company/${id}/`}
+  });
 }
 
-console.log(fetchData());
-sendData(fetchData());
+createUrl(fetchIds());
